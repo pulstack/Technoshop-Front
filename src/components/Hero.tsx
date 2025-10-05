@@ -19,7 +19,7 @@ const Hero = () => {
             Created to change everything for the better. For everyone
           </p>
 
-          <button className="w-[191px] h-[56px] rounded-[6px] mt-5 text-white border border-white py-3 px-5">
+          <button className="w-[191px] h-[56px] rounded-[6px] mt-5 text-white border  border-white hover:bg-white hover:text-black hover:duration-1000 py-3 px-5">
             Shop Now
           </button>
         </div>
