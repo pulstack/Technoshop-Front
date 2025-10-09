@@ -33,10 +33,11 @@ const SearchModal = () => {
       if (debounce.trim().length) {
         setIsLoading(true);
         const res = await axios.get(
-          `localhost:8000/products/search/${debounce}`
+          `https://dummyjson.com/products/search?q=${debounce}`
         );
-        if (res.data.products.length > 0) {
-          setData(res.data.products);
+
+        if (res.data.length > 0) {
+          setData(res.data);
           setWarning("");
         } else {
           setData([]);
@@ -66,7 +67,7 @@ const SearchModal = () => {
   return (
     <div className="max-w-[642px] w-full relative">
       <div className="flex  gap-3  bg-[#F5F5F5] rounded-[8px] px-3 py-2 max-w-[372px] w-full max-h-[58px] h-full">
-        <SearchIcon  size={20} className='text-gray-400'  />
+        <SearchIcon size={20} className="text-gray-400" />
         <input
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 300)}

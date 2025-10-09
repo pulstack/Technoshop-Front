@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image";
-import HeroImage from "../app/assets/images/IphoneImage.png";
-import Playstation from "../app/assets/images/PlayStation.png";
-import Macbook from "../app/assets/images/MacBookPro14.png";
-import Noushnik from "../app/assets/images/noushnik.png";
-import Vision from "../app/assets/images/vision.png";
+import HeroImage from "@/assets/images/IphoneImage.png";
+import Playstation from "@/assets/images/PlayStation.png";
+import Macbook from "@/assets/images/MacBookPro14.png";
+import Noushnik from "@/assets/images/noushnik.png";
+import Vision from "@/assets/images/vision.png";
 const Hero = () => {
   return (
     <div className="">

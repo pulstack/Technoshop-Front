@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  // domains: ["localhost"]
-   images: {
+  images: {
     remotePatterns: [
       {
         protocol: "http",
@@ -13,8 +11,18 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "technoshop.uz",   // sizning domeningiz
+        hostname: "technoshop.uz",
         pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.dummyjson.com", 
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "source.unsplash.com", 
+        pathname: "/**",
       },
     ],
   },
