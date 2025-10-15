@@ -28,20 +28,35 @@ export interface ProductType {
   discountPercentage: number;
   rating: number;
   stock: number;
-  availabilityStatus: string;
-  brand: string;
+  brand?: string;
   category: string;
   thumbnail: string;
-  images: string[]; // array of image URLs
-  sku: string;
-  minimumOrderQuantity: number;
-  returnPolicy: string;
-  warrantyInformation: string;
-  shippingInformation: string;
-  weight: number;
-  dimensions: Dimensions;
+  images: string[];
   count: number;
+  availabilityStatus: string;
+  shippingInformation: string;
+  warrantyInformation: string;
+  returnPolicy: string;
+  minimumOrderQuantity: number;
+  sku: string;
+  weight: number;
+  dimensions: {
+    width: number;
+    height: number;
+    depth: number;
+  };
   tags: string[];
-  meta: Meta;
-  reviews: Review[];
+  meta: {
+    createdAt: string;
+    updatedAt: string;
+    barcode: string;
+    qrCode: string;
+  };
+  reviews: {
+    rating: number;
+    comment: string;
+    date: string;
+    reviewerName: string;
+    reviewerEmail: string;
+  }[];
 }

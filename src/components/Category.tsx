@@ -29,10 +29,10 @@ const Category = () => {
       const response = await axios.get("https://dummyjson.com/products/categories");
       console.log("API response:", response.data);
 
-      // Agar obyekt array kelsa
+
       const categories = response.data.map((c: any, index: number) => ({
         id: index,
-        name: typeof c === "string" ? c : c.name,   // string bo‘lsa stringni olamiz, obyekt bo‘lsa name ni
+        name: typeof c === "string" ? c : c.name,   
         image: `https://source.unsplash.com/150x150/?${typeof c === "string" ? c : c.slug}`,
       }));
       setCategory(categories);

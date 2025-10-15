@@ -5,8 +5,11 @@ import ProductCart from "./ProductCart";
 import Section from "./Section";
 import Banner2 from "@/assets/images/Banner2.png";
 import Image from "next/image";
+import Link from "next/link";
+import { ProductType } from "@/types";
+
 const Product = () => {
-  const [products, setProducts] = React.useState<any[]>([]);
+  const [products, setProducts] = React.useState<ProductType[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<
     "new" | "bestseller" | "featured"
@@ -14,8 +17,8 @@ const Product = () => {
 
   const FetchProduct = async () => {
     try {
-      const response = await axios.get('https://dummyjson.com/products');
-      console.log(response.data);
+      const response = await axios.get("https://dummyjson.com/products");
+      
       setProducts(response.data.products || []);
     } catch (error) {
       console.log(error);
@@ -31,7 +34,7 @@ const Product = () => {
   return (
     <div>
       <div className="w-full px-[160px]">
-        <div className="flex  mb-6 gap-8">
+        <div className="flex mb-6 gap-8">
           <button
             onClick={() => setActiveTab("new")}
             className={`pb-2 ${
@@ -75,7 +78,9 @@ const Product = () => {
               </div>
             ) : products.length > 0 ? (
               products.slice(0, 8).map((product, index) => (
-                <ProductCart key={index} product={product} />
+                <Link key={index} href={`/product/${product.id}`}>
+                  <ProductCart product={product} />
+                </Link>
               ))
             ) : (
               <p>No products found.</p>
@@ -86,7 +91,9 @@ const Product = () => {
         {activeTab === "bestseller" && (
           <div className="mt-[32px] grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 mb-20">
             {products.slice(8, 16).map((product, index) => (
-              <ProductCart key={index} product={product} />
+              <Link key={index} href={`/product/${product.id}`}>
+                <ProductCart product={product} />
+              </Link>
             ))}
           </div>
         )}
@@ -94,22 +101,29 @@ const Product = () => {
         {activeTab === "featured" && (
           <div className="mt-[32px] grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 mb-20">
             {products.slice(16, 24).map((product, index) => (
-              <ProductCart key={index} product={product} />
+              <Link key={index} href={`/product/${product.id}`}>
+                <ProductCart product={product} />
+              </Link>
             ))}
           </div>
         )}
       </div>
+
       <Section />
+
       <div className="mt-20 w-full px-[160px]">
-          <p className="text-[24px]">Discounts up to -50%</p>
-          <div>
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 mt-8">
-              {products.slice(24, 28).map((product, index) => (
-              <ProductCart key={index} product={product} />
+        <p className="text-[24px]">Discounts up to -50%</p>
+        <div>
+          <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 mt-8">
+            {products.slice(24, 28).map((product, index) => (
+              <Link key={index} href={`/product/${product.id}`}>
+                <ProductCart product={product} />
+              </Link>
             ))}
-            </div>
           </div>
+        </div>
       </div>
+
       <div className="w-full">
         <Image src={Banner2} alt="banner" className="w-full mt-20" />
       </div>

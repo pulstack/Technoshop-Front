@@ -5,11 +5,12 @@ import useOrder from "@/components/store/useOrder";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ProductType } from "@/types";
-import { BrushCleaning, Minus, Plus, ScanLine, Trash2 } from "lucide-react";
+import { BrushCleaning, Minus, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useSelectedProducts } from "@/components/store/useSelectedProducts";
 
 const Cart = () => {
   const {
@@ -20,29 +21,24 @@ const Cart = () => {
     incrementProduct,
   } = useCart();
 
-  const [orderData, setOrderData] = React.useState<ProductType[]>([]);
   const { setProducts } = useOrder();
   const router = useRouter();
 
-  // 🟢 Narxlarni state bilan boshqaramiz
+  const {
+    selectedProducts,
+    addSelected,
+    removeSelected,
+    clearSelected,
+    isSelected,
+  } = useSelectedProducts();
+
   const [subtotal, setSubtotal] = React.useState(0);
   const [tax, setTax] = React.useState(0);
   const [shipping, setShipping] = React.useState(0);
   const [total, setTotal] = React.useState(0);
 
-  // order productlarini belgilash
-  const handleOrder = (checked: boolean, product: ProductType) => {
-    if (checked) {
-      setOrderData([...orderData, product]);
-    } else {
-      const newData = orderData.filter((item) => item.id !== product.id);
-      setOrderData(newData);
-    }
-  };
-
-  // 🟢 orderData o‘zgarsa subtotal va total qayta hisoblanadi
   React.useEffect(() => {
-    const newSubtotal = orderData.reduce((sum, p: any) => {
+    const newSubtotal = selectedProducts.reduce((sum, p: any) => {
       const finalPrice = p.discountPercentage
         ? p.price - p.price * (p.discountPercentage / 100)
         : p.price;
@@ -57,11 +53,12 @@ const Cart = () => {
     setTax(newTax);
     setShipping(newShipping);
     setTotal(newTotal);
-  }, [orderData]);
+  }, [selectedProducts]);
 
   const getOrder = () => {
-    setProducts(orderData);
-    router.push("/order");
+    if (selectedProducts.length === 0) return;
+    setProducts(selectedProducts);
+    router.push("/checkout");
   };
 
   return (
@@ -76,9 +73,11 @@ const Cart = () => {
               className="flex items-center justify-between py-4 border-b"
             >
               <Checkbox
-                onCheckedChange={(checked: boolean) =>
-                  handleOrder(checked, product)
-                }
+                checked={isSelected(product.id)}
+                onCheckedChange={(checked: boolean) => {
+                  if (checked) addSelected(product);
+                  else removeSelected(product.id);
+                }}
               />
               <div className="flex items-center gap-4">
                 <Image
@@ -109,7 +108,10 @@ const Cart = () => {
               <Button
                 variant="destructive"
                 size="icon"
-                onClick={() => removeProduct(product.id)}
+                onClick={() => {
+                  removeProduct(product.id);
+                  removeSelected(product.id);
+                }}
               >
                 <Trash2 />
               </Button>
@@ -122,12 +124,8 @@ const Cart = () => {
             <Button onClick={clearCart} variant="outline">
               <BrushCleaning /> clear
             </Button>
-            <Button
-              onClick={getOrder}
-              disabled={!orderData.length}
-              className="disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2 bg-primary text-white"
-            >
-              <ScanLine /> Place an order
+            <Button onClick={clearSelected} variant="secondary">
+              Clear selected
             </Button>
           </div>
         ) : (
@@ -186,9 +184,14 @@ const Cart = () => {
           <span>Total</span>
           <span>${total.toFixed(2)}</span>
         </div>
-        <Link href="/checkout">
-          <Button className="w-full mt-4 bg-black text-white">Checkout</Button>
-        </Link>
+
+        <Button
+          className="w-full mt-4 bg-black text-white"
+          onClick={getOrder}
+          disabled={selectedProducts.length === 0}
+        >
+          Checkout
+        </Button>
       </div>
     </div>
   );
