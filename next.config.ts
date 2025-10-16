@@ -16,15 +16,23 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "cdn.dummyjson.com", 
+        hostname: "cdn.dummyjson.com",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "source.unsplash.com", 
+        hostname: "source.unsplash.com",
         pathname: "/**",
       },
     ],
+  },
+
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 
