@@ -95,7 +95,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
           </div>
         </div>
 
-        {/* TAGS */}
+ 
         {product.tags?.length > 0 && (
           <div className="mt-6">
             <p className="font-semibold mb-1">Tags:</p>

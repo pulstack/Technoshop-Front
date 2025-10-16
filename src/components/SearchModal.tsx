@@ -35,8 +35,9 @@ const SearchModal = () => {
         const res = await axios.get(
           `https://dummyjson.com/products/search?q=${debounce}`
         );
-
-        if (res.data.length > 0) {
+        console.log(res.data);
+        
+        if (res.data.products.length > 0) {
           setData(res.data);
           setWarning("");
         } else {
