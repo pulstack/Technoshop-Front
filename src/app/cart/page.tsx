@@ -38,11 +38,11 @@ const Cart = () => {
   const [total, setTotal] = React.useState(0);
 
   React.useEffect(() => {
-    const newSubtotal = selectedProducts.reduce((sum, p: any) => {
+    const newSubtotal = selectedProducts.reduce((sum, p: ProductType) => {
       const finalPrice = p.discountPercentage
         ? p.price - p.price * (p.discountPercentage / 100)
         : p.price;
-      return sum + finalPrice * p.count;
+      return sum + finalPrice * (p.count || 1);
     }, 0);
 
     const newTax = newSubtotal ? 50 : 0;
@@ -55,15 +55,14 @@ const Cart = () => {
     setTotal(newTotal);
   }, [selectedProducts]);
 
-  const getOrder = () => {
+  const getOrder = React.useCallback(() => {
     if (selectedProducts.length === 0) return;
     setProducts(selectedProducts);
     router.push("/checkout");
-  };
+  }, [selectedProducts, setProducts, router]);
 
   return (
     <div className="mt-8 flex mx-[160px] gap-16 mb-40 items-stretch">
-      {/* Shopping Cart */}
       <div className="flex-1 border rounded-xl p-6 bg-white shadow-md flex flex-col">
         <h1 className="text-2xl font-bold mb-6">Shopping Cart</h1>
         <ul className="flex-1">
@@ -132,7 +131,7 @@ const Cart = () => {
           <div className="mt-40 flex flex-col items-center justify-center gap-3">
             <h2 className="text-md text-gray-600">The basket is empty</h2>
             <Link
-              href={"/"}
+              href="/"
               className="flex items-center justify-center w-[178px] h-[37px] bg-primary text-white rounded-md"
             >
               Go to directory
@@ -141,7 +140,6 @@ const Cart = () => {
         )}
       </div>
 
-      {/* Order Summary */}
       <div className="w-[450px] border rounded-xl p-6 shadow-md bg-white flex flex-col">
         <h2 className="text-xl font-bold mb-4">Order Summary</h2>
         <div className="mb-4 flex flex-col gap-4">
@@ -176,7 +174,7 @@ const Cart = () => {
           <span>${tax}</span>
         </div>
         <div className="flex justify-between py-1">
-          <span>Estimated shipping & Handling</span>
+          <span>Estimated shipping &amp; Handling</span>
           <span>${shipping}</span>
         </div>
         <hr className="my-2" />

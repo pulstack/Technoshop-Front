@@ -21,11 +21,11 @@ const FavoritesPage = () => {
             {favorites.map((product) => (
               <div
                 key={product.id}
-                className="border rounded-lg shadow p-4 flex flex-col justify-between"
+                className="border rounded-lg shadow p-4 flex flex-col justify-between bg-white"
               >
                 <Link href={`/product/${product.id}`}>
                   <div className="flex flex-col gap-3 cursor-pointer">
-                    {product.images && (
+                    {product.images?.[0] && (
                       <Image
                         src={product.images[0]}
                         alt={product.title}
@@ -40,7 +40,7 @@ const FavoritesPage = () => {
                 </Link>
                 <button
                   onClick={() => removeFromFavorites(product.id)}
-                  className="mt-4 flex items-center gap-2 text-red-600 hover:text-red-800"
+                  className="mt-4 flex items-center gap-2 text-red-600 hover:text-red-800 transition"
                 >
                   <Trash2 size={18} /> clear
                 </button>
@@ -48,7 +48,7 @@ const FavoritesPage = () => {
             ))}
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6 flex justify-end">
             <button
               onClick={clearFavorites}
               className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition"
