@@ -2,9 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
+import { ProductType } from "@/types";
 
 interface ProductDetailsProps {
-  product: any;
+  product:  ProductType;
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
@@ -76,8 +77,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
           </div>
           <div>
             <p>
-              <strong>Dimensions:</strong> {product.dimensions?.width} ×{" "}
-              {product.dimensions?.height} × {product.dimensions?.depth}
+              <strong>Dimensions:</strong> {product.dimensions?.width} x
+              {product.dimensions?.height} x {product.dimensions?.depth}
             </p>
             <p>
               <strong>Min Order Quantity:</strong>{" "}
